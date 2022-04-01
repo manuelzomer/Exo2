@@ -118,7 +118,8 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
       Listener listener,
       String userAgent,
       SocketFactory socketFactory,
-      boolean debugLoggingEnabled) {
+      boolean debugLoggingEnabled,
+      long customStartTime) {
     this.allocator = allocator;
     this.rtpDataChannelFactory = rtpDataChannelFactory;
     this.listener = listener;
@@ -132,7 +133,8 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
             /* userAgent= */ userAgent,
             /* uri= */ uri,
             socketFactory,
-            debugLoggingEnabled);
+            debugLoggingEnabled,
+            /* customStartTime= */ customStartTime);
     rtspLoaderWrappers = new ArrayList<>();
     selectedLoadInfos = new ArrayList<>();
 

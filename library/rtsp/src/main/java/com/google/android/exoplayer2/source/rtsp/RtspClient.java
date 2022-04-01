@@ -138,6 +138,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
   // TODO(b/172331505) Add a timeout monitor for pending requests.
   private final SparseArray<RtspRequest> pendingRequests;
   private final MessageSender messageSender;
+  private final long customStartTime;
 
   /** RTSP session URI. */
   private Uri uri;
@@ -175,12 +176,14 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
       String userAgent,
       Uri uri,
       SocketFactory socketFactory,
-      boolean debugLoggingEnabled) {
+      boolean debugLoggingEnabled,
+      long customStartTime) {
     this.sessionInfoListener = sessionInfoListener;
     this.playbackEventListener = playbackEventListener;
     this.userAgent = userAgent;
     this.socketFactory = socketFactory;
     this.debugLoggingEnabled = debugLoggingEnabled;
+    this.customStartTime = customStartTime;
     this.pendingSetupRtpLoadInfos = new ArrayDeque<>();
     this.pendingRequests = new SparseArray<>();
     this.messageSender = new MessageSender();
@@ -232,7 +235,11 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
    * @param offsetMs The playback offset in milliseconds, with respect to the stream start position.
    */
   public void startPlayback(long offsetMs) {
-    messageSender.sendPlayRequest(uri, offsetMs, checkNotNull(sessionId));
+    if (playbackOffset != 0) {
+      messageSender.sendPlayRequest(uri, playbackOffset, checkNotNull(sessionId));
+    } else {
+      messageSender.sendPlayRequest(uri, this.customStartTime, checkNotNull(sessionId));
+    }
   }
 
   /**

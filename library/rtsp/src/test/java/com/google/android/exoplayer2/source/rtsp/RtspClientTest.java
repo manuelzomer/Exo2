@@ -148,7 +148,8 @@ public final class RtspClientTest {
             /* userAgent= */ "ExoPlayer:RtspClientTest",
             RtspTestUtils.getTestUri(rtspServer.startAndGetPortNumber()),
             socketFactory,
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
     rtspClient.start();
     RobolectricUtil.runMainLooperUntil(() -> tracksInSession.get() != null);
 
@@ -192,7 +193,8 @@ public final class RtspClientTest {
             /* userAgent= */ "ExoPlayer:RtspClientTest",
             RtspTestUtils.getTestUri(rtspServer.startAndGetPortNumber()),
             SocketFactory.getDefault(),
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
     rtspClient.start();
     RobolectricUtil.runMainLooperUntil(() -> tracksInSession.get() != null);
 
@@ -244,7 +246,8 @@ public final class RtspClientTest {
             /* userAgent= */ "ExoPlayer:RtspClientTest",
             RtspTestUtils.getTestUri(rtspServer.startAndGetPortNumber()),
             SocketFactory.getDefault(),
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
     rtspClient.start();
     RobolectricUtil.runMainLooperUntil(() -> tracksInSession.get() != null);
 
@@ -288,7 +291,8 @@ public final class RtspClientTest {
             /* userAgent= */ "ExoPlayer:RtspClientTest",
             RtspTestUtils.getTestUri(rtspServer.startAndGetPortNumber()),
             SocketFactory.getDefault(),
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
     rtspClient.start();
     RobolectricUtil.runMainLooperUntil(() -> tracksInSession.get() != null);
 
@@ -335,7 +339,8 @@ public final class RtspClientTest {
             /* userAgent= */ "ExoPlayer:RtspClientTest",
             RtspTestUtils.getTestUri(rtspServer.startAndGetPortNumber()),
             SocketFactory.getDefault(),
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
     rtspClient.start();
     RobolectricUtil.runMainLooperUntil(() -> failureMessage.get() != null);
 
@@ -382,7 +387,8 @@ public final class RtspClientTest {
             /* userAgent= */ "ExoPlayer:RtspClientTest",
             RtspTestUtils.getTestUri(rtspServer.startAndGetPortNumber()),
             SocketFactory.getDefault(),
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
     rtspClient.start();
 
     RobolectricUtil.runMainLooperUntil(() -> failureCause.get() != null);

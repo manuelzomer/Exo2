@@ -273,7 +273,8 @@ public final class RtspMediaSource extends BaseMediaSource {
         },
         userAgent,
         socketFactory,
-        debugLoggingEnabled);
+        debugLoggingEnabled,
+        this.mediaItem.customStartTime);
   }
 
   @Override

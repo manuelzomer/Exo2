@@ -86,7 +86,8 @@ public final class RtspMediaPeriodTest {
             /* listener= */ timing -> refreshedSourceDurationMs.set(timing.getDurationMs()),
             /* userAgent= */ "ExoPlayer:RtspPeriodTest",
             /* socketFactory= */ SocketFactory.getDefault(),
-            /* debugLoggingEnabled= */ false);
+            /* debugLoggingEnabled= */ false,
+            /* customStartTime= */ 0);
 
     mediaPeriod.prepare(
         new MediaPeriod.Callback() {
