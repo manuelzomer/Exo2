@@ -16,6 +16,7 @@
 package com.google.android.exoplayer2.source.rtsp;
 
 import static com.google.android.exoplayer2.source.rtsp.RtspMessageChannel.DEFAULT_RTSP_PORT;
+import static com.google.android.exoplayer2.source.rtsp.RtspMessageChannel.DEFAULT_RTSPS_PORT;
 import static com.google.android.exoplayer2.source.rtsp.RtspRequest.METHOD_ANNOUNCE;
 import static com.google.android.exoplayer2.source.rtsp.RtspRequest.METHOD_DESCRIBE;
 import static com.google.android.exoplayer2.source.rtsp.RtspRequest.METHOD_GET_PARAMETER;
@@ -69,6 +70,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.net.SocketFactory;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 /** The RTSP client. */
@@ -297,11 +303,31 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
     }
   }
 
+  private static void validateHostname(Uri uri, SSLSocket socket) {
+    HostnameVerifier verifier = HttpsURLConnection.getDefaultHostnameVerifier();
+    checkArgument(verifier.verify(uri.getHost(), socket.getSession()));
+  }
+
   /** Returns a {@link Socket} that is connected to the {@code uri}. */
   private Socket getSocket(Uri uri) throws IOException {
-    checkArgument(uri.getHost() != null);
-    int rtspPort = uri.getPort() > 0 ? uri.getPort() : DEFAULT_RTSP_PORT;
-    return socketFactory.createSocket(checkNotNull(uri.getHost()), rtspPort);
+    boolean isRtsps = uri.getScheme().equals("rtsps");
+    int port = uri.getPort() > 0
+        ? uri.getPort()
+        : isRtsps
+        ? DEFAULT_RTSPS_PORT
+        : DEFAULT_RTSP_PORT;
+
+    SocketFactory factory = isRtsps
+        ? SSLSocketFactory.getDefault()
+        : SocketFactory.getDefault();
+
+    Socket socket = factory.createSocket(checkNotNull(uri.getHost()), port);
+
+    if (isRtsps) {
+      validateHostname(uri, (SSLSocket) socket);
+    }
+
+    return socket;
   }
 
   private void dispatchRtspError(Throwable error) {
