@@ -310,10 +310,10 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
     }
   }
 
-  private static void validateHostname(Uri uri, SSLSocket socket) {
-    HostnameVerifier verifier = HttpsURLConnection.getDefaultHostnameVerifier();
-    checkArgument(verifier.verify(uri.getHost(), socket.getSession()));
-  }
+  // private static void validateHostname(Uri uri, SSLSocket socket) {
+  //   HostnameVerifier verifier = HttpsURLConnection.getDefaultHostnameVerifier();
+  //   checkArgument(verifier.verify(uri.getHost(), socket.getSession()));
+  // }
 
   /** Returns a {@link Socket} that is connected to the {@code uri}. */
   private Socket getSocket(Uri uri) throws IOException {
@@ -330,9 +330,9 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
     Socket socket = factory.createSocket(checkNotNull(uri.getHost()), port);
 
-    if (isRtsps) {
-      validateHostname(uri, (SSLSocket) socket);
-    }
+    // if (isRtsps) {
+    //   validateHostname(uri, (SSLSocket) socket);
+    // }
 
     return socket;
   }
